@@ -1,0 +1,135 @@
+/* ヘッダー */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+/* ロゴエリア */
+.logo {
+    display: flex;  
+    align-items: center; /* 画像とテキストを中央揃え */
+}
+
+.logo a {
+    display: flex; /* テキストを中央揃えするために追加 */
+    align-items: center; /* 子要素（テキスト）を中央揃え */
+    font-size: 25px !important;
+    font-weight: bold !important;
+    color: #1caa1c !important;
+    text-decoration: none;
+    cursor: text;
+}
+
+.logo-image {
+    height: 50px;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        font-size: 16px;
+    }
+    .logo-image {
+        height: 40px;
+    }
+}
+
+
+/* モーダル背景 */
+.menu-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 24, 21, 0.9); /* 背景の半透明効果 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.menu-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* モーダルコンテンツ */
+.menu-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* paddingを含むサイズ計算 */
+}
+
+/* モーダルのメニューリスト項目 */
+.menu-modal-content ul {
+    list-style: none; /* リストマーカーを削除 */
+    padding: 0;
+    margin: 0;
+}
+
+.menu-modal-content ul li {
+    margin: 40px 0; /* 項目間の余白を確保 */
+}
+
+.menu-modal-content ul li a {
+    display: block; /* クリック範囲を広げる */
+    text-decoration: none; /* 下線削除 */
+    color: #1caa1c;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s; /* ホバー時の視覚効果 */
+}
+
+.menu-modal-content ul li a:hover {
+    color: #116611;
+    transform: scale(1.05);
+}
+
+/* ハンバーガーメニュー */
+.hamburger-button {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* ライン間のスペース */
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100; /* モーダルより前面に配置 */
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    width: 40px; /* ボタンサイズ */
+    height: 40px;
+}
+
+.hamburger-button span {
+    display: block;
+    width: 40px;
+    height: 4px; /* ラインの太さ */
+    background: #1caa1c;
+    transition: transform 0.5s, opacity 0.5s;
+    border-radius: 2px; /* 角丸効果 */
+}
+
+.hamburger-button.close span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger-button.close span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.close span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}

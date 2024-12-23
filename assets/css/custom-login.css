@@ -1,0 +1,72 @@
+body.login {
+    background-color: #1e1e2d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    padding: 0 20px; /* 画面両端に余白 */
+}
+
+#login h1 a {
+    background-image: url('https://example.com/wp-content/themes/levo-wordpress/assets/images/your-logo.png');
+    background-size: contain;
+    width: 200px;
+    height: 80px;
+}
+
+.login form {
+    background-color: #2c2c3e;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 20px; /* フォーム内の余白 */
+    padding-bottom: 30px; /* 言語スイッチャーとの間隔確保 */
+    width: 100%;
+    max-width: 320px; /* 最大幅を320pxに設定して狭く */
+    margin: 0 auto; /* 中央寄せ */
+}
+
+#wp-submit {
+    background: #ff4747;
+    border: none;
+    box-shadow: none;
+    color: #ffffff;
+}
+
+#wp-submit:hover {
+    background-color: #ff8c00;
+}
+
+/* 言語選択プルダウンをフォームの下に配置 */
+#login #language-switcher {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* スマホ表示対応 */
+@media (max-width: 767px) {
+    #login {
+        width: 100%; 
+        margin: 0;
+        padding: 10px;
+    }
+
+    .login form {
+        width: 100%;
+        max-width: 320px; /* スマホでも最大幅を320pxに設定 */
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* 言語選択プルダウンがフォームの下に位置するように */
+    #login #language-switcher {
+        margin-top: 10px;
+        text-align: center; 
+    }
+
+    #wp-submit {
+        padding: 10px 20px;
+    }
+}

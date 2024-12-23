@@ -1,0 +1,139 @@
+/* 全体のスタイル調整 */
+body {
+    font-family: Arial, sans-serif;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    line-height: 1.6;
+}
+
+/* ページの中央寄せと余白調整 */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ページタイトルのスタイル */
+.page-title {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    animation: fadeIn 1s ease-out;
+}
+
+/* ページコンテンツのスタイル */
+.page-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 40px;
+    padding: 45px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-content p {
+    margin-bottom: 1.5em;
+}
+
+/* 投稿カードのベーススタイル */
+.post-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    margin: 15px;
+}
+
+.post-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+/* カードタイトル */
+.post-card h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin: 15px;
+    text-align: center;
+}
+
+/* カード本文 */
+.post-card-content {
+    font-size: 1rem;
+    color: #555;
+    padding: 15px;
+    flex-grow: 1;
+}
+
+/* コメントエリア */
+.comments-area {
+    text-align: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+}
+
+.comments-area button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comments-area button:hover {
+    background-color: #0056b3;
+}
+
+/* レスポンシブ対応 */
+@media (min-width: 1025px) {
+    .post-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .post-card {
+        flex: 1 1 calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 1024px) {
+    .post-card {
+        flex: 1 1 calc(50% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .post-card {
+        flex: 1 1 100%;
+    }
+    .page-content {
+        padding: 40px;
+    }
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
