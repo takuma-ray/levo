@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
 </head>
+<!-- Google tag (gtag.js) Googleアナリティクス-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBQKJ7PFEN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBQKJ7PFEN');
+</script>
 
 
 <body <?php body_class(); ?>>
