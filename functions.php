@@ -12,312 +12,96 @@ function levo_theme_setup() {
 add_action('after_setup_theme', 'levo_theme_setup');
 
 // スタイルシートの読み込み
-function levo_enqueue_styles() {
-    wp_enqueue_style( 'levo-style', get_stylesheet_uri() );
+function levo_enqueue_styles_and_scripts() {
+    // CSS files
+    $styles = [
+        'levo-style' => get_stylesheet_uri(),
+        'index-style' => get_template_directory_uri() . '/assets/css/index.css',
+        'footer-style' => get_template_directory_uri() . '/assets/css/footer.css',
+        'header-style' => get_template_directory_uri() . '/assets/css/header.css',
+        'layout-style' => get_template_directory_uri() . '/assets/css/layout.css',
+        'main-style' => get_template_directory_uri() . '/assets/css/main.css',
+        'page-style' => get_template_directory_uri() . '/assets/css/page.css',
+        'single-style' => get_template_directory_uri() . '/assets/css/single.css',
+        'responsive-style' => get_template_directory_uri() . '/assets/css/responsive.css',
+        'custom-style' => get_template_directory_uri() . '/assets/css/custom.css'
+    ];
 
-    // 他のCSSファイルを読み込む
-    wp_enqueue_style( 'index-style', get_template_directory_uri() . '/assets/css/index.css' );
-    wp_enqueue_style( 'footer-style', get_template_directory_uri() . '/assets/css/footer.css' );
-    wp_enqueue_style( 'header-style', get_template_directory_uri() . '/assets/css/header.css' );
-    wp_enqueue_style( 'layout-style', get_template_directory_uri() . '/assets/css/layout.css' );
-    wp_enqueue_style( 'main-style', get_template_directory_uri() . '/assets/css/main.css' );
-    wp_enqueue_style( 'page-style', get_template_directory_uri() . '/assets/css/page.css' );
-    wp_enqueue_style( 'single-style', get_template_directory_uri() . '/assets/css/single.css' );
-    wp_enqueue_style( 'responsive-style', get_template_directory_uri() . '/assets/css/responsive.css' );
-     // JavaScriptの読み込み
-    wp_enqueue_script('modal-js', get_template_directory_uri() . '/assets/js/modal.js', array('jquery'), null, true);
-    wp_enqueue_script('main-js', get_template_directory_uri() . '/assets/js/main.js', array(), false, true);
-    wp_enqueue_script('carousel.js', get_template_directory_uri() . '/assets/js/carousel.js', array(), false, true);
+    foreach ($styles as $handle => $src) {
+        wp_enqueue_style($handle, $src);
+    }
+
+    // JavaScript files
+    $scripts = [
+        'modal-js' => [get_template_directory_uri() . '/assets/js/modal.js', ['jquery'], null, true],
+        'main-js' => [get_template_directory_uri() . '/assets/js/main.js', [], false, true],
+        'carousel-js' => [get_template_directory_uri() . '/assets/js/carousel.js', [], false, true],
+        'script-js' => [get_template_directory_uri() . '/assets/js/script.js', ['jquery'], null, true]
+    ];
+
+    foreach ($scripts as $handle => $args) {
+        wp_enqueue_script($handle, ...$args);
+    }
 }
-add_action( 'wp_enqueue_scripts', 'levo_enqueue_styles' );
-?>
+add_action('wp_enqueue_scripts', 'levo_enqueue_styles_and_scripts');
 
+function custom_login_redirect($redirect_to, $request, $user) {
+    if (isset($user->roles) && is_array($user->roles)) {
+        $redirects = [
+            '神のエステ練馬' => '/client-pages/kami-nerima-post',
+            '神のエステ秋葉原' => '/client-pages/kami-akihabara-post',
+            'Pulunt' => '/client-pages/pulunt-post',
+            'adachi' => '/client-pages/pulunt-post',
+            'Apex' => '/client-pages/apex-post',
+            'GRACE' => '/client-pages/grace-post',
+            'ChillAroma' => '/client-pages/chillaroma-post',
+            'Bazu-ca' => '/client-pages/bazu-ca-post',
+            'とろり沼' => '/client-pages/tororinuma-post',
+            'AROMA MRS.' => '/client-pages/aroma-mrs-post',
+            'むちむちお姉さん' => '/client-pages/muchione-post',
+            'Ixia' => '/client-pages/ixia-post',
+            '銀座のエステ' => '/client-pages/ginzanoeste-post',
+            'Honey+Plus' => '/client-pages/honeyplus-post',
+            'Unknown' => '/client-pages/unknown-post',
+            'メンズエステ松山' => '/client-pages/mem-post',
+            'SUHADA SPA' => '/client-pages/suhada-spa-post',
+            'M LABO SPA' => '/client-pages/m-labo-spa-post',
+            'Awesome spa' => '/client-pages/awesome-spa-post',
+            'きゅーてぃー♡はにー' => '/client-pages/cutie-honey-post',
+            '秘密のミセスルーム' => '/client-pages/himitsu-mrsroom-post',
+            '蛍屋金沢' => '/client-pages/hotaruya-kanazawa-post',
+            'LuxTime' => '/client-pages/luxtime-post',
+            'SUI' => '/client-pages/sui-post',
+            'Aroma mel' => '/client-pages/aroma-mel-post',
+            'アロマ NICO' => '/client-pages/aroma-nico-post'
+        ];
 
-
-
-
-<?php
-// functions.php
-
-// テーマのCSSとJSを読み込む
-function levo_enqueue_assets() {
-    // メインのスタイルシートを読み込む
-    wp_enqueue_style( 'levo-style', get_stylesheet_uri() );
-    
-    // カスタムCSSファイルを読み込む
-    wp_enqueue_style( 'levo-custom-css', get_template_directory_uri() . '/assets/css/custom.css' );
-
-    // jQueryを読み込む（WordPressにデフォルトで含まれている）
-    wp_enqueue_script( 'jquery' );
-
-    // カスタムJavaScriptファイルを読み込む
-    wp_enqueue_script( 'levo-script', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), null, 
-    true );
-}
-add_action( 'wp_enqueue_scripts', 'levo_enqueue_assets' );
-
-
-
-
-// 会員ログインに関すること
-// クライアントごとのログイン後リダイレクト先
-
-if (!function_exists('custom_login_redirect')) {
-    function custom_login_redirect($redirect_to, $request, $user) {
-        // ロールに基づくリダイレクト
-        if (isset($user->roles) && is_array($user->roles)) {
-            // 神のエステ練馬のユーザー用
-            if (in_array('神のエステ練馬', $user->roles)) {
-                return home_url('/client-pages/kami-nerima-post'); // 直リンク指定
-            }
-            // 神のエステ秋葉原のユーザー用
-            elseif (in_array('神のエステ秋葉原', $user->roles)) {
-                return home_url('/client-pages/kami-akihabara-post'); // 直リンク指定
-            }
-            // Puluntのユーザー用
-            elseif (in_array('Pulunt', $user->roles)) {
-                return home_url('/client-pages/pulunt-post'); // 直リンク指定
-            }
-            // adachiのユーザー用
-            elseif (in_array('adachi', $user->roles)) {
-                return home_url('/client-pages/pulunt-post'); // adachiの指定ページ
-            }
-            // APEXのユーザー用
-            elseif (in_array('Apex', $user->roles)) {
-                return home_url('/client-pages/apex-post'); // Apexの指定ページ
-            }
-            // GRACEのユーザー用
-            elseif (in_array('GRACE', $user->roles)) {
-                return home_url('/client-pages/grace-post'); // GRACEの指定ページ
-            }
-            // ChillAromaのユーザー用
-            elseif (in_array('ChillAroma', $user->roles)) {
-                return home_url('/client-pages/chillaroma-post'); // ChillAromaの指定ページ
-            }
-            // Bazu-caのユーザー用
-            elseif (in_array('Bazu-ca', $user->roles)) {
-                return home_url('/client-pages/bazu-ca-post'); // Bazu-caの指定ページ
-            }
-            // とろり沼のユーザー用
-            elseif (in_array('とろり沼', $user->roles)) {
-                return home_url('/client-pages/tororinuma-post'); // とろり沼の指定ページ
-            }
-            // AROMA MRSのユーザー用
-            elseif (in_array('AROMA MRS.', $user->roles)) {
-                return home_url('/client-pages/aroma-mrs-post'); // AROMA MRS.の指定ページ
-            }
-            // むちむちお姉さんのユーザー用
-            elseif (in_array('むちむちお姉さん', $user->roles)) {
-                return home_url('/client-pages/muchione-post'); // むちむちお姉さんの指定ページ
-            }
-            // Ixiaのユーザー用
-            elseif (in_array('Ixia', $user->roles)) {
-                return home_url('/client-pages/ixia-post'); // Ixiaの指定ページ
-            }
-            // 銀座のエステのユーザー用
-            elseif (in_array('銀座のエステ', $user->roles)) {
-                return home_url('/client-pages/ginzanoeste-post'); // 銀座のエステの指定ページ
-            }
-            // Honey＋Plusのユーザー用
-            elseif (in_array('Honey+Plus', $user->roles)) {
-                return home_url('/client-pages/honeyplus-post'); // Honey+Plusの指定ページ
-            }
-            // Unknownのユーザー用
-            elseif (in_array('Unknown', $user->roles)) {
-                return home_url('/client-pages/unknown-post'); // Unknownの指定ページ
-            }
-            // メンズエステ松山のユーザー用
-            elseif (in_array('メンズエステ松山', $user->roles)) {
-                return home_url('/client-pages/mem-post'); // メンズエステ松山の指定ページ
-            }
-            // SUHADA SPAのユーザー用
-            elseif (in_array('SUHADA SPA', $user->roles)) {
-                return home_url('/client-pages/suhada-spa-post'); // SUHADA SPAの指定ページ
-            }
-            // M LABO SPAのユーザー用
-            elseif (in_array('M LABO SPA', $user->roles)) {
-                return home_url('/client-pages/m-labo-spa-post'); // M LABO SPAの指定ページ
-            }
-            // Awesome Spaのユーザー用
-            elseif (in_array('Awesome spa', $user->roles)) {
-                return home_url('/client-pages/awesome-spa-post'); // Awesome Spaの指定ページ
-            }
-            // きゅーてぃー♡はにーのユーザー用
-            elseif (in_array('きゅーてぃー♡はにー', $user->roles)) {
-                return home_url('/client-pages/cutie-honey-post'); // きゅーてぃー♡はにーの指定ページ
-            }
-            // 秘密のミセスルームのユーザー用
-            elseif (in_array('秘密のミセスルーム', $user->roles)) {
-                return home_url('/client-pages/himitsu-mrsroom-post'); // 秘密のミセスルームの指定ページ
-            }
-            // 蛍屋金沢のユーザー用
-            elseif (in_array('蛍屋金沢', $user->roles)) {
-                return home_url('/client-pages/hotaruya-kanazawa-post'); // 蛍屋金沢の指定ページ
-            }
-            // LuxTimeのユーザー用
-            elseif (in_array('LuxTime', $user->roles)) {
-                return home_url('/client-pages/luxtime-post'); // LuxTimeの指定ページ
-            }
-            // SUIのユーザー用
-            elseif (in_array('SUI', $user->roles)) {
-                return home_url('/client-pages/sui-post'); // SUIの指定ページ
-            }
-            // Aroma melのユーザー用
-            elseif (in_array('Aroma mel', $user->roles)) {
-                return home_url('/client-pages/aroma-mel-post'); // Aroma melの指定ページ
-            }
-            // アロマ NICOのユーザー用
-            elseif (in_array('アロマ NICO', $user->roles)) {
-                return home_url('/client-pages/aroma-nico-post'); // アロマ NICOの指定ページ
-            }
-            // その他のユーザーには一般ページ
-            else {
-                return home_url('/client-pages/general');
+        foreach ($redirects as $role => $url) {
+            if (in_array($role, $user->roles)) {
+                return home_url($url);
             }
         }
-    
-        return $redirect_to;  // それ以外の処理を継続
     }
-    add_filter('login_redirect', 'custom_login_redirect', 10, 3);
+    return $redirect_to;
 }
+add_filter('login_redirect', 'custom_login_redirect', 10, 3);
 
-
-// ユーザーごとにクライアントページのアクセス制限
 function restrict_client_page_access() {
     if (is_singular('post') && strpos(get_permalink(), home_url('/client-pages/')) !== false) {
-        $user = wp_get_current_user(); // ログイン中のユーザーを取得
-
-        // ユーザーのロールを確認
+        $user = wp_get_current_user();
         if (isset($user->roles) && is_array($user->roles)) {
-            // 神のエステ練馬ユーザーのページ制限
-            if (in_array('神のエステ練馬', $user->roles) && !is_page('kami-nerima-post')) {
-                wp_redirect(home_url('/client-pages/kami-nerima-post'));  // 他のページにアクセスした場合、指定ページにリダイレクト
-                exit;
-            }
-            // 神のエステ秋葉原ユーザーのページ制限
-            elseif (in_array('神のエステ秋葉原', $user->roles) && !is_page('kami-akihabara-post')) {
-                wp_redirect(home_url('/client-pages/kami-akihabara-post'));
-                exit;
-            }
-            // Puluntユーザーのページ制限
-            elseif (in_array('Pulunt', $user->roles) && !is_page('pulunt-post')) {
-                wp_redirect(home_url('/client-pages/pulunt-post'));
-                exit;
-            }
-            // adachiユーザーのページ制限
-            elseif (in_array('adachi', $user->roles) && !is_page('pulunt-post')) {
-                wp_redirect(home_url('/client-pages/pulunt-post'));
-                exit;
-            }
-            // APEXユーザーのページ制限
-            elseif (in_array('Apex', $user->roles) && !is_page('apex-post')) {
-                wp_redirect(home_url('/client-pages/apex-post'));
-                exit;
-            }
-            // GRACEユーザーのページ制限
-            elseif (in_array('GRACE', $user->roles) && !is_page('grace-post')) {
-                wp_redirect(home_url('/client-pages/grace-post'));
-                exit;
-            }
-            // ChillAromaのユーザーのページ制限
-            elseif (in_array('ChillAroma', $user->roles) && !is_page('chillaroma-post')) {
-                wp_redirect(home_url('/client-pages/chillaroma-post'));
-                exit;
-            }
-            // Bazu-caユーザーのページ制限
-            elseif (in_array('Bazu-ca', $user->roles) && !is_page('bazu-ca-post')) {
-                wp_redirect(home_url('/client-pages/bazu-ca-post'));
-                exit;
-            }
-            // とろり沼ユーザーのページ制限
-            elseif (in_array('とろり沼', $user->roles) && !is_page('tororinuma-post')) {
-                wp_redirect(home_url('/client-pages/tororinuma-post'));
-                exit;
-            }
-            // AROMA MRS.ユーザーのページ制限
-            elseif (in_array('AROMA MRS.', $user->roles) && !is_page('aroma-mrs-post')) {
-                wp_redirect(home_url('/client-pages/aroma-mrs-post'));
-                exit;
-            }
-            // むちむちお姉さんのユーザーのページ制限
-            elseif (in_array('むちむちお姉さん', $user->roles) && !is_page('muchione-post')) {
-                wp_redirect(home_url('/client-pages/muchione-post'));
-                exit;
-            }
-            // Ixiaのユーザーのページ制限
-            elseif (in_array('Ixia', $user->roles) && !is_page('ixia-post')) {
-                wp_redirect(home_url('/client-pages/ixia-post'));
-                exit;
-            }
-            // 銀座のエステのユーザーのページ制限
-            elseif (in_array('銀座のエステ', $user->roles) && !is_page('ginzanoeste-post')) {
-                wp_redirect(home_url('/client-pages/ginzanoeste-post'));
-                exit;
-            }
-            // Honey＋Plusのユーザーのページ制限
-            elseif (in_array('Honey＋Plus', $user->roles) && !is_page('honeyplus-post')) {
-                wp_redirect(home_url('/client-pages/honeyplus-post'));
-                exit;
-            }
-            // Unknownのユーザーのページ制限
-            elseif (in_array('Unknown', $user->roles) && !is_page('unknown-post')) {
-                wp_redirect(home_url('/client-pages/unknown-post'));
-                exit;
-            }
-            // メンズエステ松山のユーザーのページ制限
-            elseif (in_array('メンズエステ松山', $user->roles) && !is_page('mem-post')) {
-                wp_redirect(home_url('/client-pages/mem-post'));
-                exit;
-            }
-            // SUHADA SPAのユーザーのページ制限
-            elseif (in_array('SUHADA SPA', $user->roles) && !is_page('suhada-spa-post')) {
-                wp_redirect(home_url('/client-pages/suhada-spa-post'));
-                exit;
-            }
-            // M LABO SPAのユーザーのページ制限
-            elseif (in_array('M LABO SPA', $user->roles) && !is_page('m-labo-spa-post')) {
-                wp_redirect(home_url('/client-pages/m-labo-spa-post'));
-                exit;
-            }
-            // Awesome spaのユーザーのページ制限
-            elseif (in_array('Awesome spa', $user->roles) && !is_page('awesome-spa-post')) {
-                wp_redirect(home_url('/client-pages/awesome-spa-post'));
-                exit;
-            }
-            // きゅーてぃー♡はにーのユーザーのページ制限
-            elseif (in_array('きゅーてぃー♡はにー', $user->roles) && !is_page('cutie-honey-post')) {
-                wp_redirect(home_url('/client-pages/cutie-honey-post'));
-                exit;
-            }
-            // 秘密のミセスルームのユーザーのページ制限
-            elseif (in_array('秘密のミセスルーム', $user->roles) && !is_page('himitsu-mrsroom-post')) {
-                wp_redirect(home_url('/client-pages/himitsu-mrsroom-post'));
-                exit;
-            }
-            // 蛍屋金沢のユーザーのページ制限
-            elseif (in_array('蛍屋金沢', $user->roles) && !is_page('hotaruya-kanazawa-post')) {
-                wp_redirect(home_url('/client-pages/hotaruya-kanazawa-post'));
-                exit;
-            }
-            // LuxTimeのユーザーのページ制限
-            elseif (in_array('LuxTime', $user->roles) && !is_page('luxtime-post')) {
-                wp_redirect(home_url('/client-pages/luxtime-post'));
-                exit;
-            }
-            // SUIのユーザーのページ制限
-            elseif (in_array('SUI', $user->roles) && !is_page('sui-post')) {
-                wp_redirect(home_url('/client-pages/sui-post'));
-                exit;
-            }
-            // Aroma melのユーザーのページ制限
-            elseif (in_array('Aroma mel', $user->roles) && !is_page('aroma-mel-post')) {
-                wp_redirect(home_url('/client-pages/aroma-mel-post'));
-                exit;
-            }
-            // アロマ NICOのユーザーのページ制限
-            elseif (in_array('アロマ NICO', $user->roles) && !is_page('aroma-nico-post')) {
-                wp_redirect(home_url('/client-pages/aroma-nico-post'));
-                exit;
+            $restrictions = [
+                '神のエステ練馬' => 'kami-nerima-post',
+                '神のエステ秋葉原' => 'kami-akihabara-post',
+                'Pulunt' => 'pulunt-post',
+                // Add additional restrictions as needed
+            ];
+
+            foreach ($restrictions as $role => $page_slug) {
+                if (in_array($role, $user->roles) && !is_page($page_slug)) {
+                    wp_redirect(home_url('/client-pages/' . $page_slug));
+                    exit;
+                }
             }
         }
     }
@@ -444,3 +228,35 @@ function enqueue_slick_slider() {
     wp_enqueue_script('custom-slider-init', get_template_directory_uri() . '/assets/js/custom-slider.js', ['slick-js'], null, true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_slick_slider');
+
+
+
+
+
+// カスタム投稿タイプの追加
+function create_client_post_type() {
+    register_post_type( 'client_page',
+        array(
+            'labels' => array(
+                'name' => 'Client Pages',
+                'singular_name' => 'Client Page',
+                'add_new' => 'Add New',
+                'add_new_item' => 'Add New Client Page',
+                'edit_item' => 'Edit Client Page',
+                'new_item' => 'New Client Page',
+                'view_item' => 'View Client Page',
+                'search_items' => 'Search Client Pages',
+                'not_found' =>  'No Client Pages found',
+                'not_found_in_trash' => 'No Client Pages found in Trash',
+                'parent_item_colon' => '',
+                'menu_name' => 'Client Pages'
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'client-pages'),
+            'show_in_rest' => true, // Gutenberg editor
+            'supports' => array('title', 'editor', 'author', 'custom-fields')
+        )
+    );
+}
+add_action( 'init', 'create_client_post_type' );
