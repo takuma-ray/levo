@@ -51,7 +51,7 @@ function custom_login_redirect($redirect_to, $request, $user) {
             '神のエステ練馬' => '/client-pages/kami-nerima-post',
             '神のエステ秋葉原' => '/client-pages/kami-akihabara-post',
             'Pulunt' => '/client-pages/pulunt-post',
-            'adachi' => '/client-pages/pulunt-post',
+            'adachi' => '/client-pages/testtest',
             'Apex' => '/client-pages/apex-post',
             'GRACE' => '/client-pages/grace-post',
             'ChillAroma' => '/client-pages/chillaroma-post',
@@ -87,6 +87,15 @@ function custom_login_redirect($redirect_to, $request, $user) {
 add_filter('login_redirect', 'custom_login_redirect', 10, 3);
 
 function restrict_client_page_access() {
+    // REST API や管理リクエストを除外
+    if (defined('REST_REQUEST') && REST_REQUEST) {
+        return;
+    }
+    if (is_admin()) {
+        return;
+    }
+
+    // 条件: 投稿ページで URL に 'client-pages' が含まれる
     if (is_singular('post') && strpos(get_permalink(), home_url('/client-pages/')) !== false) {
         $user = wp_get_current_user();
         if (isset($user->roles) && is_array($user->roles)) {
@@ -94,10 +103,12 @@ function restrict_client_page_access() {
                 '神のエステ練馬' => 'kami-nerima-post',
                 '神のエステ秋葉原' => 'kami-akihabara-post',
                 'Pulunt' => 'pulunt-post',
-                // Add additional restrictions as needed
+                'adachi' => 'testtest',
+                // 必要に応じて追加
             ];
 
             foreach ($restrictions as $role => $page_slug) {
+                // ユーザーの役割に一致していて、かつ異なるページの場合
                 if (in_array($role, $user->roles) && !is_page($page_slug)) {
                     wp_redirect(home_url('/client-pages/' . $page_slug));
                     exit;
@@ -107,6 +118,7 @@ function restrict_client_page_access() {
     }
 }
 add_action('template_redirect', 'restrict_client_page_access');
+
 
 
 // 会員ログインに関すること（ここまで）
@@ -260,3 +272,7 @@ function create_client_post_type() {
     );
 }
 add_action( 'init', 'create_client_post_type' );
+
+
+
+add_action('send_headers', 'cors_http_header'); function cors_http_header(){ header("Access-Control-Allow-Origin: https://aurumflow.catfood.jp/levo/"); }
