@@ -99,7 +99,7 @@
         <div class="slider-wrapper">
             <h1 class="slider-h1">Excellent members</h1>
             <ul class="slider">
-                <?php for ($i = 1; $i <= 6; $i++) : ?>
+                <?php for ($i = 1; $i <= 8; $i++) : ?>
                     <li class="slider-item">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/member<?php echo $i; ?>.jpg" alt="Member <?php echo $i; ?>">
                     </li>
